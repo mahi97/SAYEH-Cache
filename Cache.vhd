@@ -26,28 +26,52 @@ component dataArray is
 	address : in  std_logic_vector(5 downto 0);
 	wren    : in  std_logic;
 	wrdata  : in  std_logic_vector(31 downto 0);
-	data    : out std_logic_vector(31 downto 0)
+	data    : out std_logic_vector(31 downto 0);
+	status  : out std_logic_vector(4 downto 0)
   ) ;
 end component ; -- dataArray
 
+component missHitLogic is
+  port (
+	tag      : in  std_logic_vector(3 downto 0) ;
+	w0       : in  std_logic_vector(4 downto 0) ;
+	w1       : in  std_logic_vector(4 downto 0) ;
+	hit      : out std_logic;
+	w0_valid : out std_logic;
+	w1_valid : out std_logic
+  ) ;
+end component ; -- missHitLogic
 
-signal wren1, wren2 : std_logic;
+signal wren0, wren1 : std_logic;
+signal w0, w1 : std_logic_vector(4 downto 0) ;
+signal w0_valid, w1_valid : std_logic;
 begin
+
+da0 : dataArray port map (
+	clock,
+	address(11 downto 6),
+	wren0,
+	dataIn,
+	data,
+	w0
+	);
 
 da1 : dataArray port map (
 	clock,
 	address(11 downto 6),
 	wren1,
 	dataIn,
-	data
+	data,
+	w1
 	);
 
-da2 : dataArray port map (
-	clock,
-	address(11 downto 6),
-	wren2,
-	dataIn,
-	data
+mhl : missHitLogic port map (
+	address(15 downto 12),
+	w0,
+	w1,
+	hit,
+	w0_valid,
+	w1_valid
 	);
 
 

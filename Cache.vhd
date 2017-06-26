@@ -42,9 +42,22 @@ component missHitLogic is
   ) ;
 end component ; -- missHitLogic
 
+component tagValidArray is
+  port (
+	clock, reset_n : in  std_logic;
+	address        : in  std_logic_vector(5 downto 0) ;
+	wren           : in  std_logic;
+	invalidate     : in  std_logic;
+	wrdata         : in  std_logic_vector(3 downto 0) ;
+	data_out       : out std_logic_vector(4 downto 0)
+  ) ;
+end component ; -- tagValidArray
+
 signal wren0, wren1 : std_logic;
 signal w0, w1 : std_logic_vector(4 downto 0) ;
 signal w0_valid, w1_valid : std_logic;
+signal reset_n : std_logic;
+signal invalidate : std_logic;
 begin
 
 da0 : dataArray port map (
@@ -52,8 +65,7 @@ da0 : dataArray port map (
 	address(11 downto 6),
 	wren0,
 	dataIn,
-	data,
-	w0
+	data
 	);
 
 da1 : dataArray port map (
@@ -61,7 +73,24 @@ da1 : dataArray port map (
 	address(11 downto 6),
 	wren1,
 	dataIn,
-	data,
+	data
+	);
+
+tva0 : tagValidArray port map (
+	clock, reset_n,
+	address(11 downto 6),
+	wren0,
+	invalidate,
+	address(15 downto 12),
+	w0
+	);
+
+tva1 : tagValidArray port map (
+	clock, reset_n,
+	address(11 downto 6),
+	wren1,
+	invalidate,
+	address(15 downto 12),
 	w1
 	);
 

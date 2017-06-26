@@ -11,7 +11,7 @@ use IEEE.numeric_std.all;
 entity Cache is
   port (
 	clock   : in  std_logic;
-	address : in  std_logic_vector(15 downto 0);
+	address : in  std_logic_vector(9 downto 0);
 	dataIn  : in  std_logic_vector(31 downto 0);
 	data    : out std_logic_vector(31 downto 0);
 	hit     : out std_logic
@@ -53,49 +53,61 @@ component tagValidArray is
   ) ;
 end component ; -- tagValidArray
 
+component dataSelection is
+  port (
+	clock : in std_logic;
+	data0 : in std_logic_vector(31 downto 0) ;
+	data1 : in std_logic_vector(31 downto 0) ;
+	w0_valid : in std_logic;
+	w1_valid : in std_logic;
+	data : out std_logic_vector(31 downto 0)
+  ) ;
+end component ; -- dataSelection
+
 signal wren0, wren1 : std_logic;
 signal w0, w1 : std_logic_vector(4 downto 0) ;
 signal w0_valid, w1_valid : std_logic;
 signal reset_n : std_logic;
 signal invalidate : std_logic;
+signal data0, data1 : std_logic_vector(31 downto 0) ;
 begin
 
 da0 : dataArray port map (
 	clock,
-	address(11 downto 6),
+	address(5 downto 0),
 	wren0,
 	dataIn,
-	data
+	data0
 	);
 
 da1 : dataArray port map (
 	clock,
-	address(11 downto 6),
+	address(5 downto 0),
 	wren1,
 	dataIn,
-	data
+	data1
 	);
 
 tva0 : tagValidArray port map (
 	clock, reset_n,
-	address(11 downto 6),
+	address(5 downto 0),
 	wren0,
 	invalidate,
-	address(15 downto 12),
+	address(9 downto 6),
 	w0
 	);
 
 tva1 : tagValidArray port map (
 	clock, reset_n,
-	address(11 downto 6),
+	address(5 downto 0),
 	wren1,
 	invalidate,
-	address(15 downto 12),
+	address(9 downto 6),
 	w1
 	);
 
 mhl : missHitLogic port map (
-	address(15 downto 12),
+	address(9 downto 6),
 	w0,
 	w1,
 	hit,
@@ -103,6 +115,14 @@ mhl : missHitLogic port map (
 	w1_valid
 	);
 
+ds : dataSelection port map (
+	clock,
+	data0,
+	data1,
+	w0_valid,
+	w1_valid,
+	data
+	);
 
 
 

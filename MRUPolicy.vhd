@@ -17,11 +17,17 @@ entity MRUPolicy is
 end entity ; -- MRUPolicy
 
 architecture arch of MRUPolicy is
-
-
-
 begin
-
+	mru_process : process( clock )
+	begin
+		if clock = '1' and clock'event then
+			if recentUsed = '1' then
+				replace <= '0';
+			else
+				replace <= '1';
+			end if;
+		end if;
+	end process ; -- mru_process
 
 
 end architecture ; -- arch

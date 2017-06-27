@@ -10,13 +10,14 @@ use IEEE.numeric_std.all;
 
 entity dataSelection is
   port (
-	clock : in std_logic;
-	data0 : in std_logic_vector(31 downto 0) ;
-	data1 : in std_logic_vector(31 downto 0) ;
-	w0_valid : in std_logic;
-	w1_valid : in std_logic;
-	data : out std_logic_vector(31 downto 0)
-  ) ;
+		clock : in std_logic;
+		data0 : in std_logic_vector(31 downto 0) ;
+		data1 : in std_logic_vector(31 downto 0) ;
+		w0_valid : in std_logic;
+		w1_valid : in std_logic;
+		data : out std_logic_vector(31 downto 0);
+		selectedWay : out std_logic
+	  ) ;
 end entity ; -- dataSelection
 
 architecture arch of dataSelection is

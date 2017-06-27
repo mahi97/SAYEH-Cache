@@ -10,7 +10,7 @@ use IEEE.numeric_std.all;
 
 entity cacheController is
   port (
-	clock, readmem, writemem : in std_logic;
+	clock, readmem, writemem, reset_n : in std_logic;
 	address : in std_logic_vector(15 downto 0);
 	databus : inout std_logic_vector(31 downto 0)
   ) ;
@@ -27,7 +27,7 @@ architecture arch of cacheController is
 
 	component Cache is
 	  port (
-		clock      : in  std_logic;
+		clock, reset_n      : in  std_logic;
 		writeCache : in  std_logic;
 		address    : in  std_logic_vector(9 downto 0);
 		dataIn     : in  std_logic_vector(31 downto 0);
@@ -47,7 +47,7 @@ architecture arch of cacheController is
 begin
 
 	c : Cache port map (
-		clock,
+		clock, reset_n,
 		writeCache,
 		address(15 downto 6),
 		dataIn,

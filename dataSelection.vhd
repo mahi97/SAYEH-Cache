@@ -21,11 +21,16 @@ entity dataSelection is
 end entity ; -- dataSelection
 
 architecture arch of dataSelection is
-
-
-
 begin
-
-
+	dataselection_pro : process( clock )
+	begin
+		if w0_valid = '1' then
+			data <= data0;
+			selectedWay <= '0';
+		elsif w1_valid  = '1' then
+			data <= data1;
+			selectedWay <= '1';
+		end if;
+	end process ; -- dataselection_pro
 
 end architecture ; -- arch

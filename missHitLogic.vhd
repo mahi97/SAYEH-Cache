@@ -21,10 +21,15 @@ end entity ; -- missHitLogic
 
 architecture arch of missHitLogic is
 
-
+signal valid0 : std_logic;
+signal valid1 : std_logic;
 
 begin
 
-
-
+	valid0 <= '1' when w0(4) = '1' and tag = w0(3 downto 0) else '0';
+	valid1 <= '1' when w1(4) = '1' and tag = w1(3 downto 0) else '0';
+	hit    <= '1' when valid0 = '1' or valid1 = '1' else '0';
+	w0_valid <= valid0;
+	w1_valid <= valid1;
+	
 end architecture ; -- arch

@@ -19,11 +19,24 @@ entity dataArray is
 end entity ; -- dataArray
 
 architecture arch of dataArray is
-
-
-
+	type dataArr is array (0 to 63) of std_logic_vector (31 downto 0);
 begin
 
+	dataArr_pro : process( clock )
+		variable da : dataArr := (others => (others => '0'));
+		variable ad : integer;
+	begin
+		if clock = '1' and clock'event then
 
+			ad := to_integer(unsigned(address));
+
+			if wren = '1' then -- Write
+				da(ad) := wrdata;
+			else -- Read
+				data <= da(ad);
+			end if;
+
+		end if;
+	end process ; -- dataArr_pro
 
 end architecture ; -- arch

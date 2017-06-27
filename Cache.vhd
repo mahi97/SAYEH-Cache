@@ -27,8 +27,7 @@ architecture arch of Cache is
 		address : in  std_logic_vector(5 downto 0);
 		wren    : in  std_logic;
 		wrdata  : in  std_logic_vector(31 downto 0);
-		data    : out std_logic_vector(31 downto 0);
-		status  : out std_logic_vector(4 downto 0)
+		data    : out std_logic_vector(31 downto 0)
 	  ) ;
 	end component ; -- dataArray
 

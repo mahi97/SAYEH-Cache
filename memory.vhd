@@ -13,12 +13,12 @@ entity memory is
 
 	port (clk, readmem, writemem : in std_logic;
 		addressbus: in std_logic_vector (15 downto 0);
-		databus : inout std_logic_vector (15 downto 0);
+		databus : inout std_logic_vector (31 downto 0);
 		memdataready : out std_logic);
 end entity memory;
 
 architecture behavioral of memory is
-	type mem is array (0 to blocksize - 1) of std_logic_vector (15 downto 0);
+	type mem is array (0 to blocksize - 1) of std_logic_vector (31 downto 0);
 begin
 	process (clk)
 		variable buffermem : mem := (others => (others => '0'));
@@ -27,7 +27,7 @@ begin
 	begin
 		if init = true then
 			-- some initiation
-			buffermem(0) := "0000000000000000";
+			buffermem(0) := "00000000000000000000000000000000";
 			init := false;
 		end if;
 

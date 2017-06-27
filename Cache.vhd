@@ -10,11 +10,12 @@ use IEEE.numeric_std.all;
 
 entity Cache is
   port (
-	clock   : in  std_logic;
-	address : in  std_logic_vector(9 downto 0);
-	dataIn  : in  std_logic_vector(31 downto 0);
-	data    : out std_logic_vector(31 downto 0);
-	hit     : out std_logic
+	clock      : in  std_logic;
+	writeCache : in  std_logic;
+	address    : in  std_logic_vector(9 downto 0);
+	dataIn     : in  std_logic_vector(31 downto 0);
+	data       : out std_logic_vector(31 downto 0);
+	hit        : out std_logic
   ) ;
 end entity ; -- Cache
 
